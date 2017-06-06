@@ -59,7 +59,7 @@ func ExecSshCmd(cmd string, hostname string, port string, config *ssh.ClientConf
 	return o, nil
 }
 
-func Service(params map[string]string, name string, ops string, su bool) error {
+func Service(params map[string]string, name string, action string, su bool) error {
 
 	var cmd string
 
@@ -67,11 +67,11 @@ func Service(params map[string]string, name string, ops string, su bool) error {
 
 	if su == true {
 		// This requires the user has the same password as root.
-		cmd = fmt.Sprintf("echo '%s' | su - root -c 'service %s %s'",
+		cmd = fmt.Sprintf("echo '%s' | su - root -c 'service %s %s' 2>&1",
 			params["password"],
 			name, ops)
 	} else {
-		cmd = fmt.Sprintf("service %s %s", name, ops)
+		cmd = fmt.Sprintf("service %s %s", name, action)
 	}
 
 	o, err := ExecSshCmd(cmd, params["hostname"], "22", conf)
