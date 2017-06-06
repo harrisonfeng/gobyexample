@@ -54,7 +54,6 @@ func ExecSshCmd(cmd string, hostname string, port string, config *ssh.ClientConf
 	}
 
 	o := b.String()
-	log.Println(o)
 
 	return o, nil
 }
@@ -67,7 +66,7 @@ func Service(params map[string]string, name string, action string, su bool) erro
 
 	if su == true {
 		// This requires the user has the same password as root.
-		cmd = fmt.Sprintf("echo '%s' | su - root -c 'service %s %s' 2>&1",
+		cmd = fmt.Sprintf("echo '%s' | su - root -c 'service %s %s'",
 			params["password"],
 			name,
 			action)
@@ -76,7 +75,6 @@ func Service(params map[string]string, name string, action string, su bool) erro
 	}
 
 	o, err := ExecSshCmd(cmd, params["hostname"], "22", conf)
-	log.Println(o)
 	if err != nil {
 		return err
 	}
@@ -93,7 +91,8 @@ func DownloadWithCurl(params map[string]string, url string, targetDir string, su
 		// This requires the user has the same password as root.
 		cmd = fmt.Sprint("echo '%s' | su - root -c 'cd %s && curl -O %s'",
 			params["password"],
-			targetDir, url)
+			targetDir,
+			url)
 	} else {
 		cmd = fmt.Sprint("cd %s && curl -O %s", targetDir, url)
 	}
@@ -101,8 +100,8 @@ func DownloadWithCurl(params map[string]string, url string, targetDir string, su
 	conf := GetSshConfig(params["user"], params["password"])
 
 	o, err := ExecSshCmd(cmd, params["hostname"], "22", conf)
-	log.Println(o)
 	if err != nil {
+		log.Fatal(err)
 		return err
 	}
 
