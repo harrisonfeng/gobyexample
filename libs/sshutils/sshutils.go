@@ -74,7 +74,7 @@ func Service(params map[string]string, name string, action string, su bool) erro
 		cmd = fmt.Sprintf("service %s %s", name, action)
 	}
 
-	o, err := ExecSshCmd(cmd, params["hostname"], "22", conf)
+	_, err := ExecSshCmd(cmd, params["hostname"], "22", conf)
 	if err != nil {
 		return err
 	}
