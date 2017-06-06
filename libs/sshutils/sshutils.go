@@ -1,7 +1,12 @@
 package sshutils
 
-// This package includes utilities implemented by Golang.
-// @author Harrison Feng <feng.harrison@gmail.com
+// Copyright (c) 2017, Harrison Feng
+// All rights reserved.
+// Use of this source code is governed by a BSD-style
+// license that can be found in the LICENSE file.
+
+// This package includes ssh utilities implemented by Golang.
+// @author Harrison Feng <feng.harrison@gmail.com>
 
 import (
 	"bytes"
