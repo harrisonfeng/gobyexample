@@ -1,5 +1,3 @@
-package sshutils
-
 // Copyright (c) 2017, Harrison Feng
 // All rights reserved.
 // Use of this source code is governed by a BSD-style
@@ -7,6 +5,8 @@ package sshutils
 
 // This package includes ssh utilities implemented by Golang.
 // @author Harrison Feng <feng.harrison@gmail.com>
+
+package sshutils
 
 import (
 	"bytes"
@@ -36,6 +36,7 @@ func GetSshConfig(user string, password string) *ssh.ClientConfig {
 
 }
 
+// Execute command in remote server by SSH
 func ExecSshCmd(cmd string, hostname string, port string, config *ssh.ClientConfig) (string, error) {
 
 	var b bytes.Buffer
@@ -63,6 +64,7 @@ func ExecSshCmd(cmd string, hostname string, port string, config *ssh.ClientConf
 	return o, nil
 }
 
+// Manage various service in remote server.
 func Service(params map[string]string, name string, action string, su bool) error {
 
 	var cmd string
@@ -88,6 +90,7 @@ func Service(params map[string]string, name string, action string, su bool) erro
 
 }
 
+// Download a file to the target directory of remote server.
 func DownloadWithCurl(params map[string]string, url string, targetDir string, su bool) error {
 
 	var cmd string
