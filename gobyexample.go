@@ -13,7 +13,7 @@ which is modified by Harrison Feng <feng.harrison@gmail.com>.
 import (
 	"encoding/json"
 	"fmt"
-	// "os"
+	"sshlibs"
 )
 
 // For StringFormat
@@ -32,14 +32,74 @@ type Response2 struct {
 	Fruits []string `json:"fruits"`
 }
 
+func Maps() {
+	fmt.Println("**************** Maps ****************")
+
+	// Create an empty map using the builtin make.
+	m := make(map[string]int)
+
+	// Set key/value pairs using typical name[key] = val syntax.
+	m["k1"] = 7
+	m["k2"] = 13
+
+	fmt.Println("map:", m)
+
+	// Get a value for a key with name[key].
+	v1 := m["k1"]
+	fmt.Println("v1:", v1)
+	fmt.Println("len:", len(m))
+
+	// The builtin delete removes key/value pairs from a map.
+	delete(m, "k2")
+	fmt.Println("map:", m)
+
+	_, prs := m["k2"]
+	fmt.Println("prs:", prs)
+
+	// Declare/initialize a new map
+	n := map[string]int{"foo": 1, "bar": 2}
+	fmt.Println("map:", n)
+	fmt.Println("**************** Maps ****************")
+}
+
 func JsonParser() {
 	fmt.Println("**************** JsonParser ****************")
+	// atomic values
 	bolB, _ := json.Marshal(true)
 	fmt.Println(string(bolB))
+
 	intB, _ := json.Marshal(1)
 	fmt.Println(string(intB))
+
 	fltB, _ := json.Marshal(2.34)
 	fmt.Println(string(fltB))
+
+	strB, _ := json.Marshal("gopher")
+	fmt.Println(string(strB))
+
+	//JSON arrays
+	slcD := []string{"apple", "peach", "pear"}
+	slcB, _ := json.Marshal(slcD)
+	fmt.Println(string(slcB))
+
+	mapD := map[string]int{"apple": 5, "lettuce": 7}
+	mapB, _ := json.Marshal(mapD)
+	fmt.Println(string(mapB))
+
+	res1D := &Response1{
+		Page:   1,
+		Fruits: []string{"apple", "peach", "pear"},
+	}
+	res1B, _ := json.Marshal(res1D)
+	fmt.Println(string(res1B))
+
+	res2D := &Response2{
+		Page:   1,
+		Fruits: []string{"apple", "peach", "pear"},
+	}
+	res2B, _ := json.Marshal(res2D)
+	fmt.Println(string(res2B))
+
 	fmt.Println("**************** JsonParser ****************")
 }
 
@@ -60,4 +120,5 @@ func StringFormat() {
 func main() {
 	StringFormat()
 	JsonParser()
+	Maps()
 }
