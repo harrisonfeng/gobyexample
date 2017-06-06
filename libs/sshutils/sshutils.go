@@ -1,6 +1,7 @@
 package sshutils
 
 // This package includes utilities implemented by Golang.
+// @author Harrison Feng <feng.harrison@gmail.com
 
 import (
 	"bytes"
@@ -58,19 +59,48 @@ func ExecSshCmd(cmd string, hostname string, port string, config *ssh.ClientConf
 	return o, nil
 }
 
-func ServiceOps(params map[string]string, name string, ops string) error {
+func Service(params map[string]string, name string, ops string, su bool) error {
 
-	var cmd = "service"
+	var cmd string
 
 	conf := GetSshConfig(params["user"], params["password"])
 
-	if name != "" && ops != "" {
-		cmd = fmt.Sprintf("%s %s %s", cmd, name, ops)
+	if su == true {
+		// This requires the user has the same password as root.
+		cmd = fmt.Sprintf("echo '%s' | su - root -c 'service %s %s'",
+			params["password"],
+			name, ops)
 	} else {
-		log.Fatal("Invalid args given to name and ops")
+		cmd = fmt.Sprintf("service %s %s", name, ops)
 	}
 
-	_, err := ExecSshCmd(cmd, params["hostname"], "22", conf)
+	o, err := ExecSshCmd(cmd, params["hostname"], "22", conf)
+	log.Println(o)
+	if err != nil {
+		return err
+	}
+
+	return nil
+
+}
+
+func DownloadWithCurl(params map[string]string, url string, targetDir string, su bool) error {
+
+	var cmd string
+
+	if su == true {
+		// This requires the user has the same password as root.
+		cmd = fmt.Sprint("echo '%s' | su - root -c 'cd %s && curl -O %s'",
+			params["password"],
+			targetDir, url)
+	} else {
+		cmd = fmt.Sprint("cd %s && curl -O %s", targetDir, url)
+	}
+
+	conf := GetSshConfig(params["user"], params["password"])
+
+	o, err := ExecSshCmd(cmd, params["hostname"], "22", conf)
+	log.Println(o)
 	if err != nil {
 		return err
 	}
