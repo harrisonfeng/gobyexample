@@ -66,7 +66,7 @@ func Service(params map[string]string, name string, action string, su bool) erro
 
 	if su == true {
 		// This requires the user has the same password as root.
-		cmd = fmt.Sprintf("echo '%s' | su - root -c 'service %s %s'",
+		cmd = fmt.Sprintf("echo '%s' | su -c 'service %s %s' root",
 			params["password"],
 			name,
 			action)
@@ -89,7 +89,7 @@ func DownloadWithCurl(params map[string]string, url string, targetDir string, su
 
 	if su == true {
 		// This requires the user has the same password as root.
-		cmd = fmt.Sprint("echo '%s' | su - root -c 'cd %s && curl -O %s'",
+		cmd = fmt.Sprint("echo '%s' | su -c 'cd %s && curl -O %s' root",
 			params["password"],
 			targetDir,
 			url)
