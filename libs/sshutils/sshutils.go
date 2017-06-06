@@ -1,5 +1,7 @@
 package sshutils
 
+// This package includes utilities implemented by Golang.
+
 import (
 	"bytes"
 	"fmt"
