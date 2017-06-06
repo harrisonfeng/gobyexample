@@ -50,6 +50,7 @@ func ExecSshCmd(cmd string, hostname string, port string, config *ssh.ClientConf
 
 	if err := session.Run(cmd); err != nil {
 		log.Fatal("Failed to run: " + err.Error())
+		log.Fatal("Errors: " + b.String())
 		return b.String(), err
 	}
 
