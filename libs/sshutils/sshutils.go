@@ -69,7 +69,8 @@ func Service(params map[string]string, name string, action string, su bool) erro
 		// This requires the user has the same password as root.
 		cmd = fmt.Sprintf("echo '%s' | su - root -c 'service %s %s' 2>&1",
 			params["password"],
-			name, ops)
+			name,
+			action)
 	} else {
 		cmd = fmt.Sprintf("service %s %s", name, action)
 	}
