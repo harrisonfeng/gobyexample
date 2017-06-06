@@ -30,7 +30,7 @@ func GetSshConfig(user string, password string) *ssh.ClientConfig {
 
 }
 
-func ExecSshCmd(cmd, hostname, port string, config *ssh.ClientConfig) (string, error) {
+func ExecSshCmd(cmd string, hostname string, port string, config *ssh.ClientConfig) (string, error) {
 
 	var b bytes.Buffer
 
@@ -46,6 +46,7 @@ func ExecSshCmd(cmd, hostname, port string, config *ssh.ClientConfig) (string, e
 	defer session.Close()
 
 	session.Stdout = &b
+
 	if err := session.Run(cmd); err != nil {
 		log.Fatal("Failed to run: " + err.Error())
 		return b.String(), err
@@ -55,4 +56,25 @@ func ExecSshCmd(cmd, hostname, port string, config *ssh.ClientConfig) (string, e
 	log.Println(o)
 
 	return o, nil
+}
+
+func ServiceOps(params map[string]string, name string, ops string) error {
+
+	var cmd = "service"
+
+	conf := GetSshConfig(params["user"], params["password"])
+
+	if name != "" && ops != "" {
+		cmd := fmt.Sprintf("%s %s %s", cmd, name, ops)
+	} else {
+		log.Fatal("Invalid args given to name and ops")
+	}
+
+	_, err := ExecSshCmd(cmd, params["hostname"], "22", conf)
+	if err != nil {
+		return err
+	}
+
+	return nil
+
 }
