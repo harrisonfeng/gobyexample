@@ -49,8 +49,7 @@ func ExecSshCmd(cmd string, hostname string, port string, config *ssh.ClientConf
 	session.Stdout = &b
 
 	if err := session.Run(cmd); err != nil {
-		// log.Fatal("Failed to run: " + err.Error())
-		log.Fatal("Errors: " + b.String())
+		log.Fatal("Failed to run: " + err.Error())
 		return b.String(), err
 	}
 
@@ -90,7 +89,7 @@ func DownloadWithCurl(params map[string]string, url string, targetDir string, su
 
 	if su == true {
 		// This requires the user has the same password as root.
-		cmd = fmt.Sprint("echo '%s' | su -c 'cd %s && curl -O %s' root",
+		cmd = fmt.Sprintf("echo '%s' | su -c 'cd %s && curl -O %s' root",
 			params["password"],
 			targetDir,
 			url)
