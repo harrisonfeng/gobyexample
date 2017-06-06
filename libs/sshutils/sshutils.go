@@ -65,7 +65,7 @@ func ServiceOps(params map[string]string, name string, ops string) error {
 	conf := GetSshConfig(params["user"], params["password"])
 
 	if name != "" && ops != "" {
-		cmd := fmt.Sprintf("%s %s %s", cmd, name, ops)
+		cmd = fmt.Sprintf("%s %s %s", cmd, name, ops)
 	} else {
 		log.Fatal("Invalid args given to name and ops")
 	}
