@@ -30,7 +30,7 @@ func GetSshConfig(user string, password string) *ssh.ClientConfig {
 
 }
 
-func ExecSshCmd(cmd string, hostname string, port string, config *ssh.ClientConfig) string {
+func ExecSshCmd(cmd, hostname, port string, config *ssh.ClientConfig) (string, error) {
 
 	var b bytes.Buffer
 
@@ -46,10 +46,13 @@ func ExecSshCmd(cmd string, hostname string, port string, config *ssh.ClientConf
 	defer session.Close()
 
 	session.Stdout = &b
-	session.Run(cmd)
+	if err := session.Run(cmd); err != nil {
+		log.Fatal("Failed to run: " + err.Error())
+		return b.String(), err
+	}
 
 	o := b.String()
 	log.Println(o)
 
-	return o
+	return o, nil
 }
