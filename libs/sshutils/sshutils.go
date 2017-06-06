@@ -99,7 +99,7 @@ func DownloadWithCurl(params map[string]string, url string, targetDir string, su
 
 	conf := GetSshConfig(params["user"], params["password"])
 
-	o, err := ExecSshCmd(cmd, params["hostname"], "22", conf)
+	_, err := ExecSshCmd(cmd, params["hostname"], "22", conf)
 	if err != nil {
 		log.Fatal(err)
 		return err
