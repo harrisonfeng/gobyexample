@@ -1,13 +1,15 @@
 package main
 
-/*
+// Copyright (c) 2017, Harrison Feng
+// All rights reserved.
+// Use of this source code is governed by a BSD-style
+// license that can be found in the LICENSE file.
 
+/* 
 Go is an open source programming language designed for building simple,
 fast, and reliable software.
-
 This program is borrowed from Go by Example (https://gobyexample.com)
 which is modified by Harrison Feng <feng.harrison@gmail.com>.
-
 */
 
 import (
